@@ -19,7 +19,7 @@ import (
 //
 // - Every structure field data type must be string, so You must convert it to the right data type before You use it.
 //
-// - Untested for array query argument.
+// - Untested for array query argument (Please use this function with caution.).
 func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expectedRequestMethod string, structure *Structure) (libvirt.Error, bool) {
 	// Create libvirt error number
 	var libvirtErrorNumber libvirt.ErrorNumber
