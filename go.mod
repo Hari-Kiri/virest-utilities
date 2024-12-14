@@ -1,4 +1,4 @@
-module github.com/Hari-Kiri/virest-utilitiess
+module github.com/Hari-Kiri/virest-utilities
 
 go 1.23.4
 
