@@ -2,6 +2,7 @@ package utils
 
 import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolBuild"
+	"github.com/Hari-Kiri/virest-storage-pool/structures/poolCreate"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolDefine"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolList"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolUndefine"
@@ -12,5 +13,6 @@ type ResponseStructure interface {
 	poolList.Response |
 		poolDefine.Response |
 		poolBuild.Response |
+		poolCreate.Response |
 		poolUndefine.Response
 }
