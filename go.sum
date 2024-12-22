@@ -1,5 +1,7 @@
 github.com/Hari-Kiri/virest-storage-pool v0.1.7-pool-detail h1:4rfyrtT1crqHwWNJC2f+oSlmHuN3YMkbfF5m3QK1Q0w=
 github.com/Hari-Kiri/virest-storage-pool v0.1.7-pool-detail/go.mod h1:zt/2bl6BF/Dv0LAUAnURWJ+gpUJh8lHtY+28DyJTroE=
+golang.org/x/crypto v0.31.0 h1:ihbySMvVjLAeSH1IbfcRTkD/iNscyz8rGzjF/E5hV6U=
+golang.org/x/crypto v0.31.0/go.mod h1:kDsLvtWBEx7MV9tJOj9bnXsPbxwJQ6csT/x4KIN4Ssk=
 libvirt.org/go/libvirt v1.10009.0 h1:Lf3jktPJwrOF/lIb6fZN/TNUPhNVyS70wAk8lI2dGj8=
 libvirt.org/go/libvirt v1.10009.0/go.mod h1:1WiFE8EjZfq+FCVog+rvr1yatKbKZ9FaFMZgEqxEJqQ=
 libvirt.org/go/libvirtxml v1.10009.0 h1:y60vA65jOAZSJedRoil1s2myVIy0NOfz0E6zhmYiN2g=
