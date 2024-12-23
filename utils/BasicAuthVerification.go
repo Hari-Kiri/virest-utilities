@@ -45,12 +45,12 @@ func BasicAuthVerification(usernameToken, passwordToken string) (bool, error) {
 
 	hashedUsername, errorGetHashedUsername := base64.StdEncoding.DecodeString(usernameTokenSliced[3])
 	if errorGetHashedUsername != nil {
-		return false, fmt.Errorf("failed get hashed username: %s", errorGetHashedUsername)
+		return false, fmt.Errorf("failed decode username: %s", errorGetHashedUsername)
 	}
 
 	hashedPassword, errorGetHashedPassword := base64.StdEncoding.DecodeString(passwordTokenSliced[3])
 	if errorGetHashedPassword != nil {
-		return false, fmt.Errorf("failed get hashed password: %s", errorGetHashedPassword)
+		return false, fmt.Errorf("failed decode password: %s", errorGetHashedPassword)
 	}
 
 	if bytes.Compare(userKey, hashedUsername) != 0 {
