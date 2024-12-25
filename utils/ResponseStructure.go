@@ -2,6 +2,7 @@ package utils
 
 import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/authenticate"
+	"github.com/Hari-Kiri/virest-storage-pool/structures/getGid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/getUid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolAutostart"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolBuild"
@@ -18,6 +19,7 @@ import (
 type ResponseStructure interface {
 	authenticate.Response |
 		getUid.Response |
+		getGid.Response |
 		poolList.Response |
 		poolDetail.Response |
 		poolDefine.Response |
