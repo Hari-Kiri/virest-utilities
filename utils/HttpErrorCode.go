@@ -38,6 +38,10 @@ func HttpErrorCode(libvirtErrorNumber libvirt.ErrorNumber) int {
 		result = 400
 	}
 
+	if libvirtErrorNumber == libvirt.ERR_AUTH_FAILED {
+		result = 401
+	}
+
 	if libvirtErrorNumber == libvirt.ERR_GET_FAILED {
 		result = 405
 	}
