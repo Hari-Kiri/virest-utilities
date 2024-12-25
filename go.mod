@@ -9,8 +9,4 @@ require (
 	libvirt.org/go/libvirt v1.10009.0
 )
 
-require (
-	github.com/Hari-Kiri/goalMakeHandler v0.1.3 // indirect
-	github.com/Hari-Kiri/temboLog v0.1.3 // indirect
-	libvirt.org/go/libvirtxml v1.10009.0 // indirect
-)
+require libvirt.org/go/libvirtxml v1.10009.0 // indirect
