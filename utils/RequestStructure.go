@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/Hari-Kiri/virest-storage-pool/structures/getUid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolAutostart"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolBuild"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolCreate"
@@ -14,7 +15,8 @@ import (
 
 // Defined generic type constraint for request model structure.
 type RequestStructure interface {
-	poolList.Request |
+	getUid.Request |
+		poolList.Request |
 		poolDetail.Request |
 		poolDefine.Request |
 		poolBuild.Request |
