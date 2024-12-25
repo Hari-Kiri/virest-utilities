@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/Hari-Kiri/virest-storage-pool/structures/poolAutostart"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolBuild"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolCreate"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolDefine"
@@ -18,6 +19,7 @@ type RequestStructure interface {
 		poolDefine.Request |
 		poolBuild.Request |
 		poolCreate.Request |
+		poolAutostart.Request |
 		poolDestroy.Request |
 		poolDelete.Request |
 		poolUndefine.Request
