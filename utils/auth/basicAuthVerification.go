@@ -1,4 +1,4 @@
-package utils
+package auth
 
 import (
 	"bytes"
@@ -13,7 +13,11 @@ import (
 )
 
 // Verify username and password token from basic auth request using PBKDF2 hashing algorithm.
-func BasicAuthVerification(usernameToken, passwordToken string) (bool, error) {
+// PBKDF2 hashing Specification:
+// - Key length = 64 bits
+// - Pseudo-random function = SHA512
+// - Salt and iteration will be respected from sender
+func basicAuthVerification(usernameToken, passwordToken string) (bool, error) {
 	usernameTokenSliced := strings.Split(usernameToken, "$")
 	passwordTokenSliced := strings.Split(passwordToken, "$")
 
