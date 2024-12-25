@@ -11,8 +11,11 @@ import (
 // Authenticate and generate JWT token for user with basic auth. After authentication succeed, new JWT will be generated with issuer name
 // from supplied argument 'applicationName' and valid until supplied argument 'jwtLifetimeDuration'.
 // PBKDF2 hashing Specification:
+//
 // - Key length = 64 bits
+//
 // - Pseudo-random function = SHA512
+//
 // - Salt and iteration will be respected from sender
 func BasicAuth(
 	httpRequest *http.Request,
