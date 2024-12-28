@@ -1,4 +1,4 @@
-package structures
+package virest
 
 import "libvirt.org/go/libvirt"
 
