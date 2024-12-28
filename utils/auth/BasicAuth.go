@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
 	"github.com/golang-jwt/jwt"
 	"libvirt.org/go/libvirt"
 )
@@ -23,25 +24,27 @@ func BasicAuth(
 	jwtLifetimeDuration time.Duration,
 	jwtSigningMethod *jwt.SigningMethodHMAC,
 	jwtSignatureKey []byte,
-) (string, libvirt.Error, bool) {
+) (string, virest.Error, bool) {
 	username, password, ok := httpRequest.BasicAuth()
 	if !ok {
-		return "", libvirt.Error{
+		libvirtError := libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_AUTH,
 			Message: "basic authentication credential not found",
 			Level:   2,
-		}, true
+		}
+		return "", virest.Error{Error: libvirtError}, true
 	}
 
 	succeed, errorBasicAuth := basicAuthVerification(username, password)
 	if !succeed {
-		return "", libvirt.Error{
+		libvirtError := libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_AUTH,
 			Message: errorBasicAuth.Error(),
 			Level:   2,
-		}, true
+		}
+		return "", virest.Error{Error: libvirtError}, true
 	}
 
 	token := jwt.NewWithClaims(
@@ -54,13 +57,14 @@ func BasicAuth(
 
 	signedToken, errorSigningToken := token.SignedString(jwtSignatureKey)
 	if errorSigningToken != nil {
-		return "", libvirt.Error{
+		libvirtError := libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_AUTH,
 			Message: errorSigningToken.Error(),
 			Level:   2,
-		}, true
+		}
+		return "", virest.Error{Error: libvirtError}, true
 	}
 
-	return signedToken, libvirt.Error{}, false
+	return signedToken, virest.Error{}, false
 }
