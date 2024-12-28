@@ -20,7 +20,7 @@ func StringToUint(stringNumber string) (uint, virest.Error, bool) {
 		libvirtError := libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: "'Inactive' value not number or not exist",
+			Message: "argument not number or not exist",
 			Level:   libvirt.ERR_ERROR,
 		}
 		return uint(result), virest.Error{Error: libvirtError}, true
@@ -41,7 +41,7 @@ func StringToUint32(stringNumber string) (uint32, virest.Error, bool) {
 		libvirtError := libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: "'Inactive' value not number or not exist",
+			Message: "argument not number or not exist",
 			Level:   libvirt.ERR_ERROR,
 		}
 		return uint32(result), virest.Error{Error: libvirtError}, true
@@ -62,7 +62,7 @@ func StringToUint64(stringNumber string) (uint64, virest.Error, bool) {
 		libvirtError := libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: "'Inactive' value not number or not exist",
+			Message: "argument not number or not exist",
 			Level:   libvirt.ERR_ERROR,
 		}
 		return result, virest.Error{Error: libvirtError}, true
