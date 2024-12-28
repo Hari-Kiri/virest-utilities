@@ -2,7 +2,7 @@ package virest
 
 import "libvirt.org/go/libvirt"
 
-type Result struct {
+type Virest struct {
 	Connection Connection
 	Error      Error
 }
