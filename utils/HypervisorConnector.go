@@ -1,6 +1,9 @@
 package utils
 
-import "libvirt.org/go/libvirt"
+import (
+	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
+	"libvirt.org/go/libvirt"
+)
 
 // This function should be called first to get a connection to the Hypervisor and xen store.
 //
@@ -15,10 +18,10 @@ import "libvirt.org/go/libvirt"
 // URIs are documented at https://libvirt.org/uri.html
 //
 // Close() should be used to release the resources after the connection is no longer needed.
-func NewConnect(uri string) (*libvirt.Connect, libvirt.Error, bool) {
+func NewConnect(uri string) (virest.Connection, virest.Error, bool) {
 	result, errorResult := libvirt.NewConnect(uri)
 	libvirtError, isError := errorResult.(libvirt.Error)
-	return result, libvirtError, isError
+	return virest.Connection{Connect: result}, virest.Error{Error: libvirtError}, isError
 }
 
 // This function should be called first to get a restricted connection to the library functionalities.
@@ -29,10 +32,10 @@ func NewConnect(uri string) (*libvirt.Connect, libvirt.Error, bool) {
 // which can have an effect on opening drivers and freeing the connection resources
 //
 // URIs are documented at https://libvirt.org/uri.html
-func NewConnectReadOnly(uri string) (*libvirt.Connect, libvirt.Error, bool) {
+func NewConnectReadOnly(uri string) (virest.Connection, virest.Error, bool) {
 	result, errorResult := libvirt.NewConnectReadOnly(uri)
 	libvirtError, isError := errorResult.(libvirt.Error)
-	return result, libvirtError, isError
+	return virest.Connection{Connect: result}, virest.Error{Error: libvirtError}, isError
 }
 
 // This function should be called first to get a connection to the Hypervisor. If necessary, authentication
@@ -43,10 +46,10 @@ func NewConnectReadOnly(uri string) (*libvirt.Connect, libvirt.Error, bool) {
 // which can have an effect on opening drivers and freeing the connection resources
 //
 // URIs are documented at https://libvirt.org/uri.html
-func NewConnectWithAuth(uri string, auth *libvirt.ConnectAuth, flags libvirt.ConnectFlags) (*libvirt.Connect, libvirt.Error, bool) {
+func NewConnectWithAuth(uri string, auth *libvirt.ConnectAuth, flags libvirt.ConnectFlags) (virest.Connection, virest.Error, bool) {
 	result, errorResult := libvirt.NewConnectWithAuth(uri, auth, flags)
 	libvirtError, isError := errorResult.(libvirt.Error)
-	return result, libvirtError, isError
+	return virest.Connection{Connect: result}, virest.Error{Error: libvirtError}, isError
 }
 
 // This function should be called first to get a connection to the Hypervisor. If necessary, authentication
@@ -57,8 +60,8 @@ func NewConnectWithAuth(uri string, auth *libvirt.ConnectAuth, flags libvirt.Con
 // which can have an effect on opening drivers and freeing the connection resources
 //
 // URIs are documented at https://libvirt.org/uri.html
-func NewConnectWithAuthDefault(uri string, flags libvirt.ConnectFlags) (*libvirt.Connect, libvirt.Error, bool) {
+func NewConnectWithAuthDefault(uri string, flags libvirt.ConnectFlags) (virest.Connection, virest.Error, bool) {
 	result, errorResult := libvirt.NewConnectWithAuthDefault(uri, flags)
 	libvirtError, isError := errorResult.(libvirt.Error)
-	return result, libvirtError, isError
+	return virest.Connection{Connect: result}, virest.Error{Error: libvirtError}, isError
 }
