@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"reflect"
 
+	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
 	"libvirt.org/go/libvirt"
 )
 
@@ -20,7 +21,7 @@ import (
 // - Every structure field data type must be string, so You must convert it to the right data type before You use it.
 //
 // - Untested for array query argument (Please use this function with caution.).
-func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expectedRequestMethod string, structure *Structure) (libvirt.Error, bool) {
+func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expectedRequestMethod string, structure *Structure) (virest.Error, bool) {
 	// Create libvirt error number
 	var libvirtErrorNumber libvirt.ErrorNumber
 	if expectedRequestMethod == "GET" {
@@ -41,28 +42,28 @@ func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expecte
 
 	// Check http method
 	if httpRequest.Method != expectedRequestMethod {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirtErrorNumber,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("a HTTP %s command to failed", expectedRequestMethod),
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
 	// Read request body
 	requestBody, errorReadRequestBody := io.ReadAll(httpRequest.Body)
 	if errorReadRequestBody != nil {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_HTTP_ERROR,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("%s", errorReadRequestBody),
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
 	// Request body empty
 	if len(requestBody) == 0 && expectedRequestMethod != "GET" {
-		return libvirt.Error{}, false
+		return virest.Error{}, false
 	}
 
 	// Set GET parameter to structure. For now HTTP GET Method only have one query parameter "option"
@@ -71,12 +72,12 @@ func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expecte
 		errorSetStructure = setHttpGetStructure(httpRequest, structure)
 	}
 	if errorSetStructure != nil {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("%s", errorSetStructure),
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
 	// Parse JSON to model
@@ -85,15 +86,15 @@ func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expecte
 		errorUnmarshal = json.Unmarshal(requestBody, structure)
 	}
 	if errorUnmarshal != nil {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("%s", errorUnmarshal),
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
-	return libvirt.Error{}, false
+	return virest.Error{}, false
 }
 
 // Set HTTP GET method query parameter to structure. Query parameter and structure field will be compared in case sensitive.
