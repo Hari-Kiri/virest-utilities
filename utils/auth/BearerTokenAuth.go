@@ -19,13 +19,12 @@ func BearerTokenAuth(
 ) (virest.Error, bool) {
 	bearerToken := httpRequest.Header.Get("Authorization")
 	if !strings.Contains(bearerToken, "Bearer") {
-		libvirtError := libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: "bearer token not exist",
 			Level:   libvirt.ERR_ERROR,
-		}
-		return virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 	tokenString := strings.Replace(bearerToken, "Bearer ", "", -1)
 
@@ -41,34 +40,31 @@ func BearerTokenAuth(
 		return jwtSignatureKey, nil
 	})
 	if errorTokenValidation != nil {
-		libvirtError := libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("failed validate JWT token: %s", errorTokenValidation),
 			Level:   libvirt.ERR_ERROR,
-		}
-		return virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
-		libvirtError := libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: "failed get JWT claims",
 			Level:   libvirt.ERR_ERROR,
-		}
-		return virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	if !claims.VerifyIssuer(applicationName, true) {
-		libvirtError := libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("failed validate JWT token: Issuer not from %s", applicationName),
 			Level:   libvirt.ERR_ERROR,
-		}
-		return virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	return virest.Error{}, false

@@ -17,13 +17,12 @@ func StringToUint(stringNumber string) (uint, virest.Error, bool) {
 
 	result, errorConverting = strconv.ParseUint(stringNumber, 10, 32)
 	if errorConverting != nil {
-		libvirtError := libvirt.Error{
+		return uint(result), virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
 			Message: "argument not number or not exist",
 			Level:   libvirt.ERR_ERROR,
-		}
-		return uint(result), virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	return uint(result), virest.Error{}, false
@@ -38,13 +37,12 @@ func StringToUint32(stringNumber string) (uint32, virest.Error, bool) {
 
 	result, errorConverting = strconv.ParseUint(stringNumber, 10, 32)
 	if errorConverting != nil {
-		libvirtError := libvirt.Error{
+		return uint32(result), virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
 			Message: "argument not number or not exist",
 			Level:   libvirt.ERR_ERROR,
-		}
-		return uint32(result), virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	return uint32(result), virest.Error{}, false
@@ -59,13 +57,12 @@ func StringToUint64(stringNumber string) (uint64, virest.Error, bool) {
 
 	result, errorConverting = strconv.ParseUint(stringNumber, 10, 32)
 	if errorConverting != nil {
-		libvirtError := libvirt.Error{
+		return result, virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
 			Message: "argument not number or not exist",
 			Level:   libvirt.ERR_ERROR,
-		}
-		return result, virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	return result, virest.Error{}, false
