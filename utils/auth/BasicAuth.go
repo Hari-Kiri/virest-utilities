@@ -10,7 +10,7 @@ import (
 )
 
 // Authenticate and generate JWT token for user with basic auth. After authentication succeed, new JWT will be generated with issuer name
-// from supplied argument 'applicationName' and valid until supplied argument 'jwtLifetimeDuration'.
+// from argument 'applicationName' and valid until argument 'jwtLifetimeDuration'. This function use hashing PBKDF2 for basic auth.
 // PBKDF2 hashing Specification:
 //
 // - Key length = 64 bits
@@ -27,24 +27,22 @@ func BasicAuth(
 ) (string, virest.Error, bool) {
 	username, password, ok := httpRequest.BasicAuth()
 	if !ok {
-		libvirtError := libvirt.Error{
+		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_AUTH,
 			Message: "basic authentication credential not found",
 			Level:   2,
-		}
-		return "", virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	succeed, errorBasicAuth := basicAuthVerification(username, password)
 	if !succeed {
-		libvirtError := libvirt.Error{
+		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_AUTH,
 			Message: errorBasicAuth.Error(),
 			Level:   2,
-		}
-		return "", virest.Error{Error: libvirtError}, true
+		}}, true
 	}
 
 	token := jwt.NewWithClaims(
