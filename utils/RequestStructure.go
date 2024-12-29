@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"github.com/Hari-Kiri/virest-storage-pool/structures/authenticate"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/getGid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/getUid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolAutostart"
@@ -18,21 +17,20 @@ import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolUndefine"
 )
 
-// Defined generic type constraint for response model structure.
-type responseStructure interface {
-	authenticate.Response |
-		getUid.Response |
-		getGid.Response |
-		poolList.Response |
-		poolInfo.Response |
-		poolDetail.Response |
-		poolDefine.Response |
-		poolBuild.Response |
-		poolCreate.Response |
-		poolAutostart.Response |
-		poolDestroy.Response |
-		poolDelete.Response |
-		poolUndefine.Response |
-		poolRefresh.Response |
-		poolCapabilities.Response
+// Defined generic type constraint for request model structure.
+type RequestStructure interface {
+	getUid.Request |
+		getGid.Request |
+		poolList.Request |
+		poolInfo.Request |
+		poolDetail.Request |
+		poolDefine.Request |
+		poolBuild.Request |
+		poolCreate.Request |
+		poolAutostart.Request |
+		poolDestroy.Request |
+		poolDelete.Request |
+		poolUndefine.Request |
+		poolRefresh.Request |
+		poolCapabilities.Request
 }
