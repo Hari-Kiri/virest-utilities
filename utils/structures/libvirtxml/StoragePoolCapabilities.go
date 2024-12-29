@@ -1,4 +1,4 @@
-package StoragepoolCapabilities
+package libvirtxml
 
 import (
 	"encoding/xml"
