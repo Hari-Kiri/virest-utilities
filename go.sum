@@ -1,10 +1,10 @@
-github.com/Hari-Kiri/virest-storage-pool v0.1.20-pool-refresh h1:Ye54b4sMyqeJtzko/RQ33W4Syb5ShUdByqJvN+Z3+8M=
-github.com/Hari-Kiri/virest-storage-pool v0.1.20-pool-refresh/go.mod h1:XSm6oXwBbm0v3nZFmT47M4bHEAZvDEfGXzl/tMjMwo0=
+github.com/Hari-Kiri/virest-storage-pool v0.1.22-pool-capabilities h1:YkavzJo+rQyotonIGpVa1VsmBs6PLf7RBKJFJ9IKSEg=
+github.com/Hari-Kiri/virest-storage-pool v0.1.22-pool-capabilities/go.mod h1:5HfEIz8OGcxHlq3yycN9MLISm31l9tM2zA1mdgtTiL4=
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
 golang.org/x/crypto v0.31.0 h1:ihbySMvVjLAeSH1IbfcRTkD/iNscyz8rGzjF/E5hV6U=
 golang.org/x/crypto v0.31.0/go.mod h1:kDsLvtWBEx7MV9tJOj9bnXsPbxwJQ6csT/x4KIN4Ssk=
-libvirt.org/go/libvirt v1.10009.0 h1:Lf3jktPJwrOF/lIb6fZN/TNUPhNVyS70wAk8lI2dGj8=
-libvirt.org/go/libvirt v1.10009.0/go.mod h1:1WiFE8EjZfq+FCVog+rvr1yatKbKZ9FaFMZgEqxEJqQ=
+libvirt.org/go/libvirt v1.10009.1 h1:Z79EnxEVE190MeULGoq1GY0tb+O18FpYzUNYDHgkrN8=
+libvirt.org/go/libvirt v1.10009.1/go.mod h1:1WiFE8EjZfq+FCVog+rvr1yatKbKZ9FaFMZgEqxEJqQ=
 libvirt.org/go/libvirtxml v1.10009.0 h1:y60vA65jOAZSJedRoil1s2myVIy0NOfz0E6zhmYiN2g=
 libvirt.org/go/libvirtxml v1.10009.0/go.mod h1:7Oq2BLDstLr/XtoQD8Fr3mfDNrzlI3utYKySXF2xkng=
