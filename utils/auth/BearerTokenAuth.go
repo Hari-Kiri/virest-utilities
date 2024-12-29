@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
 	"github.com/golang-jwt/jwt"
 	"libvirt.org/go/libvirt"
 )
@@ -15,15 +16,15 @@ func BearerTokenAuth(
 	applicationName string,
 	jwtSigningMethod *jwt.SigningMethodHMAC,
 	jwtSignatureKey []byte,
-) (libvirt.Error, bool) {
+) (virest.Error, bool) {
 	bearerToken := httpRequest.Header.Get("Authorization")
 	if !strings.Contains(bearerToken, "Bearer") {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: "bearer token not exist",
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 	tokenString := strings.Replace(bearerToken, "Bearer ", "", -1)
 
@@ -39,32 +40,32 @@ func BearerTokenAuth(
 		return jwtSignatureKey, nil
 	})
 	if errorTokenValidation != nil {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("failed validate JWT token: %s", errorTokenValidation),
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok || !token.Valid {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: "failed get JWT claims",
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
 	if !claims.VerifyIssuer(applicationName, true) {
-		return libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
 			Domain:  libvirt.FROM_NET,
 			Message: fmt.Sprintf("failed validate JWT token: Issuer not from %s", applicationName),
 			Level:   libvirt.ERR_ERROR,
-		}, true
+		}}, true
 	}
 
-	return libvirt.Error{}, false
+	return virest.Error{}, false
 }
