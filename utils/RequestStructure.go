@@ -5,6 +5,7 @@ import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/getUid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolAutostart"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolBuild"
+	"github.com/Hari-Kiri/virest-storage-pool/structures/poolCapabilities"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolCreate"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolDefine"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolDelete"
@@ -17,7 +18,7 @@ import (
 )
 
 // Defined generic type constraint for request model structure.
-type RequestStructure interface {
+type requestStructure interface {
 	getUid.Request |
 		getGid.Request |
 		poolList.Request |
@@ -30,5 +31,6 @@ type RequestStructure interface {
 		poolDestroy.Request |
 		poolDelete.Request |
 		poolUndefine.Request |
-		poolRefresh.Request
+		poolRefresh.Request |
+		poolCapabilities.Request
 }
