@@ -21,7 +21,7 @@ import (
 // - Every structure field data type must be string, so You must convert it to the right data type before You use it.
 //
 // - Untested for array query argument (Please use this function with caution.).
-func CheckRequest[Structure requestStructure](httpRequest *http.Request, expectedRequestMethod string, structure *Structure) (virest.Error, bool) {
+func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expectedRequestMethod string, structure *Structure) (virest.Error, bool) {
 	// Create libvirt error number
 	var libvirtErrorNumber libvirt.ErrorNumber
 	if expectedRequestMethod == "GET" {
@@ -99,7 +99,7 @@ func CheckRequest[Structure requestStructure](httpRequest *http.Request, expecte
 
 // Set HTTP GET method query parameter to structure. Query parameter and structure field will be compared in case sensitive.
 // Every structure field data type must be string.
-func setHttpGetStructure[Structure requestStructure](httpRequest *http.Request, structure *Structure) error {
+func setHttpGetStructure[Structure RequestStructure](httpRequest *http.Request, structure *Structure) error {
 	var errorResult error
 
 	keys := reflect.ValueOf(structure).Elem()
