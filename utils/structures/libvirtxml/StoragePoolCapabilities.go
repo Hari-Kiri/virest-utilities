@@ -1,4 +1,4 @@
-package structures
+package StoragepoolCapabilities
 
 import (
 	"encoding/xml"
@@ -36,12 +36,12 @@ type Enum struct {
 	Value []string `xml:"value"`
 }
 
-func (s *StoragepoolCapabilities) Unmarshal(doc string) error {
-	return xml.Unmarshal([]byte(doc), s)
+func (storagepoolCapabilities *StoragepoolCapabilities) Unmarshal(doc string) error {
+	return xml.Unmarshal([]byte(doc), storagepoolCapabilities)
 }
 
-func (s *StoragepoolCapabilities) Marshal() (string, error) {
-	doc, err := xml.MarshalIndent(s, "", "  ")
+func (storagepoolCapabilities *StoragepoolCapabilities) Marshal() (string, error) {
+	doc, err := xml.MarshalIndent(storagepoolCapabilities, "", "  ")
 	if err != nil {
 		return "", err
 	}
