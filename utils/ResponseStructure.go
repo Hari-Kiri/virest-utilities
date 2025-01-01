@@ -2,6 +2,7 @@ package utils
 
 import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/authenticate"
+	"github.com/Hari-Kiri/virest-storage-pool/structures/findStoragePoolSources"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/getGid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/getUid"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolAutostart"
@@ -21,6 +22,7 @@ import (
 // Defined generic type constraint for response model structure.
 type ResponseStructure interface {
 	authenticate.Response |
+		findStoragePoolSources.Response |
 		getUid.Response |
 		getGid.Response |
 		poolList.Response |
