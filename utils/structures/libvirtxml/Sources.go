@@ -1,0 +1,43 @@
+package libvirtxml
+
+import (
+	"encoding/xml"
+	"fmt"
+
+	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
+	"libvirt.org/go/libvirt"
+	"libvirt.org/go/libvirtxml"
+)
+
+type Sources struct {
+	XMLName xml.Name                       `xml:"sources"`
+	Source  []libvirtxml.StoragePoolSource `xml:"source"`
+}
+
+func (sources *Sources) Unmarshal(doc string) (virest.Error, bool) {
+	errorUnmarshal := xml.Unmarshal([]byte(doc), sources)
+	if errorUnmarshal != nil {
+		return virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_XML_ERROR,
+			Domain:  libvirt.FROM_XML,
+			Message: fmt.Sprintf("%s", errorUnmarshal),
+			Level:   libvirt.ERR_ERROR,
+		}}, true
+	}
+
+	return virest.Error{}, false
+}
+
+func (sources *Sources) Marshal() (string, virest.Error, bool) {
+	doc, errorMarshal := xml.MarshalIndent(sources, "", "  ")
+	if errorMarshal != nil {
+		return "", virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_XML_ERROR,
+			Domain:  libvirt.FROM_XML,
+			Message: fmt.Sprintf("%s", errorMarshal),
+			Level:   libvirt.ERR_ERROR,
+		}}, true
+	}
+
+	return string(doc), virest.Error{}, false
+}
