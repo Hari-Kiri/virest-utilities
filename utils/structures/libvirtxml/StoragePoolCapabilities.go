@@ -2,6 +2,10 @@ package libvirtxml
 
 import (
 	"encoding/xml"
+	"fmt"
+
+	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
+	"libvirt.org/go/libvirt"
 )
 
 // Storage Pool Capabilities xml not found inside https://pkg.go.dev/libvirt.org/go/libvirtxml.
@@ -36,14 +40,30 @@ type Enum struct {
 	Value []string `xml:"value"`
 }
 
-func (storagepoolCapabilities *StoragepoolCapabilities) Unmarshal(doc string) error {
-	return xml.Unmarshal([]byte(doc), storagepoolCapabilities)
+func (storagepoolCapabilities *StoragepoolCapabilities) Unmarshal(doc string) (virest.Error, bool) {
+	errorUnmarshal := xml.Unmarshal([]byte(doc), storagepoolCapabilities)
+	if errorUnmarshal != nil {
+		return virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_XML_ERROR,
+			Domain:  libvirt.FROM_XML,
+			Message: fmt.Sprintf("%s", errorUnmarshal),
+			Level:   libvirt.ERR_ERROR,
+		}}, true
+	}
+
+	return virest.Error{}, false
 }
 
-func (storagepoolCapabilities *StoragepoolCapabilities) Marshal() (string, error) {
-	doc, err := xml.MarshalIndent(storagepoolCapabilities, "", "  ")
-	if err != nil {
-		return "", err
+func (storagepoolCapabilities *StoragepoolCapabilities) Marshal() (string, virest.Error, bool) {
+	doc, errorMarshal := xml.MarshalIndent(storagepoolCapabilities, "", "  ")
+	if errorMarshal != nil {
+		return "", virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_XML_ERROR,
+			Domain:  libvirt.FROM_XML,
+			Message: fmt.Sprintf("%s", errorMarshal),
+			Level:   libvirt.ERR_ERROR,
+		}}, true
 	}
-	return string(doc), nil
+
+	return string(doc), virest.Error{}, false
 }
