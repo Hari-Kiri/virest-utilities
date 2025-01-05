@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
@@ -20,7 +21,7 @@ func StringToUint(stringNumber string) (uint, virest.Error, bool) {
 		return uint(result), virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: "argument not number or not exist",
+			Message: fmt.Sprintf("argument not number or not exist: %s", errorConverting),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
@@ -40,7 +41,7 @@ func StringToUint32(stringNumber string) (uint32, virest.Error, bool) {
 		return uint32(result), virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: "argument not number or not exist",
+			Message: fmt.Sprintf("argument not number or not exist: %s", errorConverting),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
@@ -60,7 +61,7 @@ func StringToUint64(stringNumber string) (uint64, virest.Error, bool) {
 		return result, virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: "argument not number or not exist",
+			Message: fmt.Sprintf("argument not number or not exist: %s", errorConverting),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
