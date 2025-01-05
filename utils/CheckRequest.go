@@ -20,7 +20,7 @@ import (
 //
 // - Every structure field data type must be string, so You must convert it to the right data type before You use it.
 //
-// - Untested for array query argument (Please use this function with caution.).
+// - Untested for array query argument (Please use this function with caution).
 func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expectedRequestMethod string, structure *Structure) (virest.Error, bool) {
 	// Create libvirt error number
 	var libvirtErrorNumber libvirt.ErrorNumber
@@ -56,7 +56,7 @@ func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expecte
 		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_HTTP_ERROR,
 			Domain:  libvirt.FROM_NET,
-			Message: fmt.Sprintf("%s", errorReadRequestBody),
+			Message: errorReadRequestBody.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
@@ -75,7 +75,7 @@ func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expecte
 		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INVALID_ARG,
 			Domain:  libvirt.FROM_NET,
-			Message: fmt.Sprintf("%s", errorSetStructure),
+			Message: errorSetStructure.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
@@ -89,7 +89,7 @@ func CheckRequest[Structure RequestStructure](httpRequest *http.Request, expecte
 		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_NET,
-			Message: fmt.Sprintf("%s", errorUnmarshal),
+			Message: errorUnmarshal.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
