@@ -2,7 +2,6 @@ package libvirtxml
 
 import (
 	"encoding/xml"
-	"fmt"
 
 	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
 	"libvirt.org/go/libvirt"
@@ -20,7 +19,7 @@ func (sources *Sources) Unmarshal(doc string) (virest.Error, bool) {
 		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_XML_ERROR,
 			Domain:  libvirt.FROM_XML,
-			Message: fmt.Sprintf("%s", errorUnmarshal),
+			Message: errorUnmarshal.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
@@ -34,7 +33,7 @@ func (sources *Sources) Marshal() (string, virest.Error, bool) {
 		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_XML_ERROR,
 			Domain:  libvirt.FROM_XML,
-			Message: fmt.Sprintf("%s", errorMarshal),
+			Message: errorMarshal.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
