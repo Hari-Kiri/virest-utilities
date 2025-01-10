@@ -20,12 +20,14 @@ import (
 // - Salt and iteration will be respected from sender
 func BasicAuth(
 	httpRequest *http.Request,
+	username,
+	password,
 	applicationName string,
 	jwtLifetimeDuration time.Duration,
 	jwtSigningMethod *jwt.SigningMethodHMAC,
 	jwtSignatureKey []byte,
 ) (string, virest.Error, bool) {
-	username, password, ok := httpRequest.BasicAuth()
+	usernameToken, passwordToken, ok := httpRequest.BasicAuth()
 	if !ok {
 		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
@@ -35,7 +37,7 @@ func BasicAuth(
 		}}, true
 	}
 
-	succeed, errorBasicAuth := basicAuthVerification(username, password)
+	succeed, errorBasicAuth := basicAuthVerification([]byte(username), []byte(password), usernameToken, passwordToken)
 	if !succeed {
 		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_AUTH_FAILED,
