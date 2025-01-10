@@ -17,6 +17,7 @@ import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolList"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolRefresh"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolUndefine"
+	storageVolumeAuthenticate "github.com/Hari-Kiri/virest-storage-volume/structures/authenticate"
 )
 
 // Defined generic type constraint for response model structure.
@@ -36,5 +37,6 @@ type ResponseStructure interface {
 		poolDelete.Response |
 		poolUndefine.Response |
 		poolRefresh.Response |
-		poolCapabilities.Response
+		poolCapabilities.Response |
+		storageVolumeAuthenticate.Response
 }
