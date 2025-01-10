@@ -9,4 +9,7 @@ require (
 	libvirt.org/go/libvirt v1.10009.1
 )
 
-require libvirt.org/go/libvirtxml v1.10009.0 // indirect
+require (
+	github.com/Hari-Kiri/virest-storage-volume v0.1.0-dev
+	libvirt.org/go/libvirtxml v1.10009.0
+)
