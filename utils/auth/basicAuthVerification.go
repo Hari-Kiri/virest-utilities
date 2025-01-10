@@ -5,7 +5,6 @@ import (
 	"crypto/sha512"
 	"encoding/base64"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 
@@ -17,7 +16,7 @@ import (
 // - Key length = 64 bits
 // - Pseudo-random function = SHA512
 // - Salt and iteration will be respected from sender
-func basicAuthVerification(usernameToken, passwordToken string) (bool, error) {
+func basicAuthVerification(username, password []byte, usernameToken, passwordToken string) (bool, error) {
 	usernameTokenSliced := strings.Split(usernameToken, "$")
 	passwordTokenSliced := strings.Split(passwordToken, "$")
 
@@ -32,7 +31,7 @@ func basicAuthVerification(usernameToken, passwordToken string) (bool, error) {
 	}
 
 	userKey := pbkdf2.Key(
-		[]byte(os.Getenv("VIREST_STORAGE_POOL_APPLICATION_BA_USER")),
+		username,
 		[]byte(usernameTokenSliced[2]),
 		userTokensIteration,
 		64,
@@ -40,7 +39,7 @@ func basicAuthVerification(usernameToken, passwordToken string) (bool, error) {
 	)
 
 	passwordKey := pbkdf2.Key(
-		[]byte(os.Getenv("VIREST_STORAGE_POOL_APPLICATION_BA_PASSWORD")),
+		password,
 		[]byte(passwordTokenSliced[2]),
 		passwordTokensIteration,
 		64,
