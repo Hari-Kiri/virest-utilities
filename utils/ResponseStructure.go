@@ -39,6 +39,6 @@ type ResponseStructure interface {
 		poolUndefine.Response |
 		poolRefresh.Response |
 		poolCapabilities.Response |
-		storageVolumeAuthenticate.Response
-	volumeListAll.Response
+		storageVolumeAuthenticate.Response |
+		volumeListAll.Response
 }

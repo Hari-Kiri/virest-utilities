@@ -35,6 +35,6 @@ type RequestStructure interface {
 		poolDelete.Request |
 		poolUndefine.Request |
 		poolRefresh.Request |
-		poolCapabilities.Request
-	volumeListAll.Request
+		poolCapabilities.Request |
+		volumeListAll.Request
 }
