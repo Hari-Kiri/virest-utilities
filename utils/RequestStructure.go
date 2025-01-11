@@ -16,6 +16,7 @@ import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolList"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolRefresh"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolUndefine"
+	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeListAll"
 )
 
 // Defined generic type constraint for request model structure.
@@ -34,5 +35,6 @@ type RequestStructure interface {
 		poolDelete.Request |
 		poolUndefine.Request |
 		poolRefresh.Request |
-		poolCapabilities.Request
+		poolCapabilities.Request |
+		volumeListAll.Request
 }
