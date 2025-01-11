@@ -10,6 +10,6 @@ require (
 )
 
 require (
-	github.com/Hari-Kiri/virest-storage-volume v0.2.0-dev
+	github.com/Hari-Kiri/virest-storage-volume v0.3.0-dev
 	libvirt.org/go/libvirtxml v1.10010.0
 )
