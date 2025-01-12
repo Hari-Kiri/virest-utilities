@@ -19,6 +19,7 @@ import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolUndefine"
 	storageVolumeAuthenticate "github.com/Hari-Kiri/virest-storage-volume/structures/authenticate"
 	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeCreate"
+	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeDelete"
 	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeListAll"
 )
 
@@ -42,5 +43,6 @@ type ResponseStructure interface {
 		poolCapabilities.Response |
 		storageVolumeAuthenticate.Response |
 		volumeListAll.Response |
-		volumeCreate.Response
+		volumeCreate.Response |
+		volumeDelete.Response
 }
