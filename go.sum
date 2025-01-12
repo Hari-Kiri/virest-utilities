@@ -1,7 +1,7 @@
 github.com/Hari-Kiri/virest-storage-pool v1.0.1 h1:cFur7VV2JlWz4ITMcGmBWlbY2E4KG/9MskQhMBCVd24=
 github.com/Hari-Kiri/virest-storage-pool v1.0.1/go.mod h1:HmGaMH8YMD2E6Puo9eDk5ljTMUdKqFWgY01IuOfHSeA=
-github.com/Hari-Kiri/virest-storage-volume v0.3.0-dev h1:N7afgL/TTd7caKgVDGEv+cTaSBKeJ/7SM3UifGzQT7I=
-github.com/Hari-Kiri/virest-storage-volume v0.3.0-dev/go.mod h1:t75xA6JQ0b7lVDkarymZlTuN+OmyT+8ygp7Tf1zfo34=
+github.com/Hari-Kiri/virest-storage-volume v0.4.0-dev h1:UAmlya+Il6Wc90e92K0terLwSxFyzCoKVvVJ0JrSIOc=
+github.com/Hari-Kiri/virest-storage-volume v0.4.0-dev/go.mod h1:3evDEpWosluLrIIctg5N6x7gNEZl+YqRTjc4N86mID8=
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
 golang.org/x/crypto v0.32.0 h1:euUpcYgM8WcP71gNpTqQCn6rC2t6ULUPiOzfWaXVVfc=

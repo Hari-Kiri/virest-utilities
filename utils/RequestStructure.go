@@ -17,6 +17,7 @@ import (
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolRefresh"
 	"github.com/Hari-Kiri/virest-storage-pool/structures/poolUndefine"
 	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeCreate"
+	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeDelete"
 	"github.com/Hari-Kiri/virest-storage-volume/structures/volumeListAll"
 )
 
@@ -38,5 +39,6 @@ type RequestStructure interface {
 		poolRefresh.Request |
 		poolCapabilities.Request |
 		volumeListAll.Request |
-		volumeCreate.Request
+		volumeCreate.Request |
+		volumeDelete.Request
 }
