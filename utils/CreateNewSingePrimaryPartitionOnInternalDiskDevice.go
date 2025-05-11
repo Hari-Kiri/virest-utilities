@@ -9,7 +9,7 @@ import (
 )
 
 // Partition a local disk device with one primary partition.
-func CreateNewSingePrimaryPartitionOnInternalDiskDevice(diskDevice string, format string, partitionTable string) (string, virest.Error, bool) {
+func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevice string, format string, partitionTable string) (string, virest.Error, bool) {
 	guestfs, errorCreateLibguestfsHandle := libguestfs.Create()
 	if errorCreateLibguestfsHandle != nil {
 		return "", virest.Error{Error: libvirt.Error{
