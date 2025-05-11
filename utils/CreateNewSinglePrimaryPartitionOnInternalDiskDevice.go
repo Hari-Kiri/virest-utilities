@@ -9,7 +9,12 @@ import (
 )
 
 // Partition a local disk device with one primary partition.
-func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevice string, format string, partitionTable string) (string, virest.Error, bool) {
+// Parameters:
+//
+//   - diskDevicePath: disk device location (ex: /dev/sda or /home/user/image.qcow2).
+//   - diskDeviceFormat: disk device format (ex: raw or qcow2).
+//   - diskDevicePartitionTable: disk device partition table (ex: mbr or gpt).
+func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, diskDeviceFormat string, diskDevicePartitionTable string) (string, virest.Error, bool) {
 	guestfs, errorCreateLibguestfsHandle := libguestfs.Create()
 	if errorCreateLibguestfsHandle != nil {
 		return "", virest.Error{Error: libvirt.Error{
@@ -24,9 +29,9 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevice string, form
 	// attach the disk image to libguestfs
 	optargs := libguestfs.OptargsAdd_drive{
 		Format_is_set: true,
-		Format:        format,
+		Format:        diskDeviceFormat,
 	}
-	if errorAddDrive := guestfs.Add_drive(diskDevice, &optargs); errorAddDrive != nil {
+	if errorAddDrive := guestfs.Add_drive(diskDevicePath, &optargs); errorAddDrive != nil {
 		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
@@ -65,8 +70,8 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevice string, form
 		}}, true
 	}
 
-	// partition the disk as one single MBR partition
-	errorPartitioningDisk := guestfs.Part_disk(devices[0], partitionTable)
+	// partition the disk as one single partition
+	errorPartitioningDisk := guestfs.Part_disk(devices[0], diskDevicePartitionTable)
 	if errorPartitioningDisk != nil {
 		return "", virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
@@ -87,7 +92,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevice string, form
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
-	if len(partitions) != 1 {
+	if len(partitions) > 1 {
 		var partitionsString strings.Builder
 		for i := 0; i < len(partitions); i++ {
 			partitionsString.WriteString(partitions[i])
@@ -96,6 +101,14 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevice string, form
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: "expected a single partition from list-partitions",
+			Level:   libvirt.ERR_ERROR,
+		}}, true
+	}
+	if len(partitions) < 1 {
+		return "", virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_INTERNAL_ERROR,
+			Domain:  libvirt.FROM_STORAGE,
+			Message: "failed create new single primary partition on internal disk device",
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
