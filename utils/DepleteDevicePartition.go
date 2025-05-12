@@ -87,7 +87,7 @@ func DepleteDevicePartition(diskDevicePath string, diskDeviceFormat string) (vir
 	if len(partitions) > 1 {
 		for i := 0; i < len(partitions); i++ {
 			errorWipefs = guestfs.Wipefs(partitions[i])
-			errorDeletePartition = guestfs.Part_del(devices[0], i)
+			errorDeletePartition = guestfs.Part_del(devices[0], i+1)
 		}
 	}
 	if len(partitions) > 0 {
