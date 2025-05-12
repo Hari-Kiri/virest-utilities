@@ -92,7 +92,7 @@ func DepleteDevicePartition(diskDevicePath string, diskDeviceFormat string) (vir
 	}
 	if len(partitions) > 0 {
 		errorWipefs = guestfs.Wipefs(partitions[0])
-		errorDeletePartition = guestfs.Part_del(devices[0], 0)
+		errorDeletePartition = guestfs.Part_del(devices[0], 1)
 	}
 	if errorWipefs != nil {
 		return virest.Error{Error: libvirt.Error{
