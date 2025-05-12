@@ -79,5 +79,15 @@ func DeletePrimaryPartition(diskDevicePath string, diskDeviceFormat string, disk
 		}}, true
 	}
 
+	errorWipefs := guestfs.Wipefs(devices[0])
+	if errorWipefs != nil {
+		return virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_INTERNAL_ERROR,
+			Domain:  libvirt.FROM_STORAGE,
+			Message: errorWipefs.Error(),
+			Level:   libvirt.ERR_ERROR,
+		}}, true
+	}
+
 	return virest.Error{}, false
 }
