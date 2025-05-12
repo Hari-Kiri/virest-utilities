@@ -14,10 +14,10 @@ import (
 //   - diskDevicePath: disk device location (ex: /dev/sda or /home/user/image.qcow2).
 //   - diskDeviceFormat: disk device format (ex: raw or qcow2).
 //   - diskDevicePartitionTable: disk device partition table (ex: mbr or gpt).
-func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, diskDeviceFormat string, diskDevicePartitionTable string) (string, virest.Error, bool) {
+func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, diskDeviceFormat string, diskDevicePartitionTable string) (virest.Error, bool) {
 	guestfs, errorCreateLibguestfsHandle := libguestfs.Create()
 	if errorCreateLibguestfsHandle != nil {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorCreateLibguestfsHandle.Error(),
@@ -32,7 +32,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 		Format:        diskDeviceFormat,
 	}
 	if errorAddDrive := guestfs.Add_drive(diskDevicePath, &optargs); errorAddDrive != nil {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorAddDrive.Error(),
@@ -42,7 +42,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 
 	// run the libguestfs back-end
 	if errorLaunchGuestfs := guestfs.Launch(); errorLaunchGuestfs != nil {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorLaunchGuestfs.Error(),
@@ -54,7 +54,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 	// we only expect that this list should contain a single device
 	devices, errorGetListOfDevices := guestfs.List_devices()
 	if errorGetListOfDevices != nil {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorGetListOfDevices.Error(),
@@ -62,7 +62,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 		}}, true
 	}
 	if len(devices) > 1 {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: "expected a single device",
@@ -73,7 +73,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 	// partition the disk as one single partition
 	errorPartitioningDisk := guestfs.Part_disk(devices[0], diskDevicePartitionTable)
 	if errorPartitioningDisk != nil {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorPartitioningDisk.Error(),
@@ -85,7 +85,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 	// we expect a single element, which is the partition we have just created
 	partitions, errorGetListOfDiskPartition := guestfs.List_partitions()
 	if errorGetListOfDiskPartition != nil {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorGetListOfDiskPartition.Error(),
@@ -97,7 +97,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 		for i := 0; i < len(partitions); i++ {
 			partitionsString.WriteString(partitions[i])
 		}
-		return partitionsString.String(), virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: "expected a single partition from list-partitions",
@@ -105,7 +105,7 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 		}}, true
 	}
 	if len(partitions) < 1 {
-		return "", virest.Error{Error: libvirt.Error{
+		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: "failed create new single primary partition on internal disk device",
@@ -113,5 +113,5 @@ func CreateNewSinglePrimaryPartitionOnInternalDiskDevice(diskDevicePath string, 
 		}}, true
 	}
 
-	return partitions[0], virest.Error{}, false
+	return virest.Error{}, false
 }
