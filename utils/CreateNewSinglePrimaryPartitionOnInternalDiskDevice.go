@@ -9,6 +9,7 @@ import (
 )
 
 // Partition a local disk device with one primary partition.
+//
 // Parameters:
 //
 //   - diskDevicePath: disk device location (ex: /dev/sda or /home/user/image.qcow2).

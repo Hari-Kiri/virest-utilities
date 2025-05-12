@@ -6,13 +6,13 @@ import (
 	"libvirt.org/go/libvirt"
 )
 
-// Delete primary partition on internal disk device.
+// Delete all partition on internal disk device.
+//
 // Parameters:
 //
 //   - diskDevicePath: disk device location (ex: /dev/sda or /home/user/image.qcow2).
 //   - diskDeviceFormat: disk device format (ex: raw or qcow2).
-//   - diskDevicePartitionNumber: disk device partition number.
-func DeletePrimaryPartition(diskDevicePath string, diskDeviceFormat string, diskDevicePartitionNumber int) (virest.Error, bool) {
+func DepleteDevicePartition(diskDevicePath string, diskDeviceFormat string) (virest.Error, bool) {
 	guestfs, errorCreateLibguestfsHandle := libguestfs.Create()
 	if errorCreateLibguestfsHandle != nil {
 		return virest.Error{Error: libvirt.Error{
@@ -68,23 +68,45 @@ func DeletePrimaryPartition(diskDevicePath string, diskDeviceFormat string, disk
 		}}, true
 	}
 
-	// Delete partition
-	errorDeletePartition := guestfs.Part_del(devices[0], diskDevicePartitionNumber)
-	if errorDeletePartition != nil {
+	// get the list of partitions
+	partitions, errorGetListOfDiskPartition := guestfs.List_partitions()
+	if errorGetListOfDiskPartition != nil {
 		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
-			Message: errorDeletePartition.Error(),
+			Message: errorGetListOfDiskPartition.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
 
-	errorWipefs := guestfs.Wipefs(devices[0])
+	// Clear partition signature then delete all partition inside device
+	var (
+		errorWipefs          error
+		errorDeletePartition error
+	)
+	if len(partitions) > 1 {
+		for i := 0; i < len(partitions); i++ {
+			errorWipefs = guestfs.Wipefs(partitions[i])
+			errorDeletePartition = guestfs.Part_del(devices[0], i)
+		}
+	}
+	if len(partitions) > 0 {
+		errorWipefs = guestfs.Wipefs(partitions[0])
+		errorDeletePartition = guestfs.Part_del(devices[0], 0)
+	}
 	if errorWipefs != nil {
 		return virest.Error{Error: libvirt.Error{
 			Code:    libvirt.ERR_INTERNAL_ERROR,
 			Domain:  libvirt.FROM_STORAGE,
 			Message: errorWipefs.Error(),
+			Level:   libvirt.ERR_ERROR,
+		}}, true
+	}
+	if errorDeletePartition != nil {
+		return virest.Error{Error: libvirt.Error{
+			Code:    libvirt.ERR_INTERNAL_ERROR,
+			Domain:  libvirt.FROM_STORAGE,
+			Message: errorDeletePartition.Error(),
 			Level:   libvirt.ERR_ERROR,
 		}}, true
 	}
