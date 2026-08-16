@@ -18,18 +18,22 @@ defer conn.Close()
 
 Also available: `ConnectReadOnly`, `ConnectWithAuth`, `ConnectWithAuthDefault`.
 
-### Errors
+Legacy `utils.NewConnect*` helpers remain for compatibility but are deprecated; they now delegate to `utils/hypervisor` and surface non-libvirt failures correctly via `utils/errors.ToLegacy`.
 
-Use `hypervisor.Wrap` to annotate failures and `hypervisor.Code` / `hypervisor.AsLibvirtError` to recover libvirt details:
+## Errors
+
+Use `utils/errors` to annotate failures and recover libvirt details (import under an alias such as `viresterrors` to avoid clashing with the standard library `errors` package):
 
 ```go
-err := hypervisor.Wrap("define pool", someErr)
+import viresterrors "github.com/Hari-Kiri/virest-utilities/utils/errors"
+
+err := viresterrors.Wrap("define pool", someErr)
 if err != nil {
-    if code, ok := hypervisor.Code(err); ok {
+    if code, ok := viresterrors.Code(err); ok {
         // use libvirt.ErrorNumber code
         _ = code
     }
 }
 ```
 
-Legacy `utils.NewConnect*` helpers remain for compatibility but are deprecated; they now delegate to `utils/hypervisor` and surface non-libvirt failures correctly via `hypervisor.ToLegacy`.
+Also available: `AsLibvirtError`, `ToLegacy`.
