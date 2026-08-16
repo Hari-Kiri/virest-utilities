@@ -1,9 +1,9 @@
 package hypervisor
 
 import (
-	"errors"
 	"fmt"
 
+	viresterrors "github.com/Hari-Kiri/virest-utilities/utils/errors"
 	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
 	"libvirt.org/go/libvirt"
 )
@@ -38,37 +38,10 @@ func ConnectWithAuthDefault(uri string, flags libvirt.ConnectFlags) (virest.Conn
 
 func wrapConnect(conn *libvirt.Connect, err error, op string) (virest.Connection, error) {
 	if err != nil {
-		return virest.Connection{}, fmt.Errorf("%s: %w", op, err)
+		return virest.Connection{}, viresterrors.Wrap(op, err)
 	}
 	if conn == nil {
 		return virest.Connection{}, fmt.Errorf("%s: nil libvirt connection", op)
 	}
 	return virest.Connection{Connect: conn}, nil
-}
-
-// AsLibvirtError extracts a libvirt.Error from err when present.
-func AsLibvirtError(err error) (libvirt.Error, bool) {
-	var lv libvirt.Error
-	if errors.As(err, &lv) {
-		return lv, true
-	}
-	return libvirt.Error{}, false
-}
-
-// ToLegacy converts an idiomatic error into the historical (virest.Error, bool) pair.
-// Non-libvirt errors are preserved as a libvirt.Error with Message set so callers
-// that only inspect Message still see the failure.
-func ToLegacy(err error) (virest.Error, bool) {
-	if err == nil {
-		return virest.Error{}, false
-	}
-	if lv, ok := AsLibvirtError(err); ok {
-		return virest.Error{Error: lv}, true
-	}
-	return virest.Error{Error: libvirt.Error{
-		Code:    libvirt.ERR_INTERNAL_ERROR,
-		Domain:  libvirt.FROM_NONE,
-		Message: err.Error(),
-		Level:   libvirt.ERR_ERROR,
-	}}, true
 }
