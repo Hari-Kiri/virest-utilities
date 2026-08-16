@@ -38,7 +38,7 @@ func ConnectWithAuthDefault(uri string, flags libvirt.ConnectFlags) (virest.Conn
 
 func wrapConnect(conn *libvirt.Connect, err error, op string) (virest.Connection, error) {
 	if err != nil {
-		return virest.Connection{}, fmt.Errorf("%s: %w", op, err)
+		return virest.Connection{}, Wrap(op, err)
 	}
 	if conn == nil {
 		return virest.Connection{}, fmt.Errorf("%s: nil libvirt connection", op)
