@@ -1,6 +1,7 @@
 package utils
 
 import (
+	viresterrors "github.com/Hari-Kiri/virest-utilities/utils/errors"
 	"github.com/Hari-Kiri/virest-utilities/utils/hypervisor"
 	"github.com/Hari-Kiri/virest-utilities/utils/structures/virest"
 	"libvirt.org/go/libvirt"
@@ -15,7 +16,7 @@ import (
 // Close() should be used to release the resources after the connection is no longer needed.
 func NewConnect(uri string) (virest.Connection, virest.Error, bool) {
 	conn, err := hypervisor.Connect(uri)
-	ve, isErr := hypervisor.ToLegacy(err)
+	ve, isErr := viresterrors.ToLegacy(err)
 	return conn, ve, isErr
 }
 
@@ -26,7 +27,7 @@ func NewConnect(uri string) (virest.Connection, virest.Error, bool) {
 // URIs are documented at https://libvirt.org/uri.html
 func NewConnectReadOnly(uri string) (virest.Connection, virest.Error, bool) {
 	conn, err := hypervisor.ConnectReadOnly(uri)
-	ve, isErr := hypervisor.ToLegacy(err)
+	ve, isErr := viresterrors.ToLegacy(err)
 	return conn, ve, isErr
 }
 
@@ -37,7 +38,7 @@ func NewConnectReadOnly(uri string) (virest.Connection, virest.Error, bool) {
 // URIs are documented at https://libvirt.org/uri.html
 func NewConnectWithAuth(uri string, auth *libvirt.ConnectAuth, flags libvirt.ConnectFlags) (virest.Connection, virest.Error, bool) {
 	conn, err := hypervisor.ConnectWithAuth(uri, auth, flags)
-	ve, isErr := hypervisor.ToLegacy(err)
+	ve, isErr := viresterrors.ToLegacy(err)
 	return conn, ve, isErr
 }
 
@@ -48,6 +49,6 @@ func NewConnectWithAuth(uri string, auth *libvirt.ConnectAuth, flags libvirt.Con
 // URIs are documented at https://libvirt.org/uri.html
 func NewConnectWithAuthDefault(uri string, flags libvirt.ConnectFlags) (virest.Connection, virest.Error, bool) {
 	conn, err := hypervisor.ConnectWithAuthDefault(uri, flags)
-	ve, isErr := hypervisor.ToLegacy(err)
+	ve, isErr := viresterrors.ToLegacy(err)
 	return conn, ve, isErr
 }
